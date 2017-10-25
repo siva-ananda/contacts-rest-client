@@ -1,7 +1,12 @@
 package be.steformations.sivananda.service.contacts.rest;
 
+import java.util.Collections;
+import java.util.List;
+
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -67,6 +72,20 @@ public class ContactRestClient {
 			deleted = true;
 		}
 		return deleted;
+	}
+
+	public List<TagDto> getAllTags() {
+		List<TagDto> tags = null;
+
+		Response response = this.service.path("tag").request(MediaType.APPLICATION_XML).get();
+		if (response.getStatus() == 200) {
+			GenericType<List<TagDto>> type = new GenericType<List<TagDto>>() {
+			};
+			tags = response.readEntity(type);
+		} else {
+			tags = Collections.emptyList();
+		}
+		return tags;
 	}
 
 }
