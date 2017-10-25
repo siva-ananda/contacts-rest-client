@@ -36,4 +36,11 @@ public class ContactRestClient {
 		return dto;
 	}
 
+	public TagDto createAndSaveTag(String value) {
+		TagDto dto = null;
+		dto = this.service.path("tag").path(value).request(MediaType.APPLICATION_XML).post(null, TagDto.class);
+
+		return dto;
+	}
+
 }
