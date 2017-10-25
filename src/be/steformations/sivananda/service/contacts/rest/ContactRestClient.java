@@ -56,4 +56,14 @@ public class ContactRestClient {
 		return dto;
 	}
 
+	public boolean removeTag(int id) {
+		boolean deleted = false;
+
+		Response response = this.service.path("tag").path(String.valueOf(id)).request().delete();
+		if (response.getStatus() == 200) {
+			deleted = true;
+		}
+		return deleted;
+	}
+
 }
