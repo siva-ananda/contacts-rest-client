@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="tests"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="lib" path="dependencies/contacts-dto.jar"/>
 	<classpathentry kind="lib" path="dependencies/eclipselink-2.6.4-RC1.jar"/>
@@ -42,5 +43,6 @@
 	<classpathentry kind="lib" path="dependencies/aspectjrt-1.8.7.jar"/>
 	<classpathentry kind="lib" path="dependencies/commonj.sdo-2.1.1.jar"/>
 	<classpathentry kind="lib" path="dependencies/commons-logging-1.2.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
