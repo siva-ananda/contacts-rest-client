@@ -32,7 +32,10 @@ public class TestRemoveTag {
 		boolean deleted = this.client.removeTag(tag.getId());
 		assertTrue(deleted);
 
-		found = this.client.getTagByValue(value);
+		//found = this.client.getTagByValue(value);
+		//assertNull(found);
+		
+		found = this.client.getTagById(tag.getId());
 		assertNull(found);
 	}
 

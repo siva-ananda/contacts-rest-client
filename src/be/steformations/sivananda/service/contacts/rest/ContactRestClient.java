@@ -32,8 +32,11 @@ public class ContactRestClient {
 		TagDto dto = null;
 
 		String xml = this.service.path("tag").path(String.valueOf(id)).request(MediaType.TEXT_PLAIN).get(String.class);
-		dto = this.contactsDtoFactory.xmlToTag(xml);
+		TagDto temp = this.contactsDtoFactory.xmlToTag(xml);
 
+		if (temp.getId() != null) {
+			dto = temp;
+		}
 		return dto;
 	}
 
