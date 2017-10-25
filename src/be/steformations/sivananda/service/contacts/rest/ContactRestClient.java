@@ -3,6 +3,7 @@ package be.steformations.sivananda.service.contacts.rest;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import be.steformations.sivananda.data.contacts.dto.ContactsDtoFactory;
 import be.steformations.sivananda.data.contacts.dto.TagDto;
@@ -39,6 +40,18 @@ public class ContactRestClient {
 	public TagDto createAndSaveTag(String value) {
 		TagDto dto = null;
 		dto = this.service.path("tag").path(value).request(MediaType.APPLICATION_XML).post(null, TagDto.class);
+
+		return dto;
+	}
+
+	public TagDto getTagByValue(String value) {
+		TagDto dto = null;
+
+		Response response = this.service.path("tag").path(value).request(MediaType.APPLICATION_XML).get();
+
+		if (response.getStatus() == 200) {
+			dto = response.readEntity(TagDto.class);
+		}
 
 		return dto;
 	}
