@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
@@ -88,15 +87,25 @@ public class ContactRestClient {
 		}
 		return tags;
 	}
-	
-	
+
 	public CountryDto getCountryByAbbreviation(String abbreviation) {
 		CountryDto country = null;
 		Response response = this.service.path("country").path(abbreviation).request(MediaType.APPLICATION_JSON).get();
-		if (response.getStatus() == 200){
+		if (response.getStatus() == 200) {
 			country = response.readEntity(CountryDto.class);
 		}
 		return country;
+	}
+
+	public List<CountryDto> getAllCountries() {
+		List<CountryDto> countries = null;
+		Response response = this.service.path("country").request(MediaType.APPLICATION_JSON).get();
+		if (response.getStatus() == 200) {
+			GenericType<List<CountryDto>> type = new GenericType<List<CountryDto>>() {
+			};
+			countries = response.readEntity(type);
+		}
+		return countries;
 	}
 
 }

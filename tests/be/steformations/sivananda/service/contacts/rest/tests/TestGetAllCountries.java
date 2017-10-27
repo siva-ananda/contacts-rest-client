@@ -2,13 +2,15 @@ package be.steformations.sivananda.service.contacts.rest.tests;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import be.steformations.sivananda.data.contacts.dto.CountryDto;
 import be.steformations.sivananda.service.contacts.rest.ContactRestClient;
 
-public class TestGetCountryByAbbreviation {
+public class TestGetAllCountries {
 
 	private ContactRestClient client;
 
@@ -18,14 +20,15 @@ public class TestGetCountryByAbbreviation {
 	}
 
 	@Test
-	public void testGetCountryByAbbreviation() {
+	public void testGetAllCountries() {
 		CountryDto usa = new CountryDto();
 		usa.setId(1);
 		usa.setName("Etats-Unis");
 		usa.setAbbreviation("US");
 
-		CountryDto found = this.client.getCountryByAbbreviation("US");
-		assertEquals(usa, found);
+		List<CountryDto> countries = this.client.getAllCountries();
+
+		assertTrue(countries.contains(usa));
 	}
 
 }
