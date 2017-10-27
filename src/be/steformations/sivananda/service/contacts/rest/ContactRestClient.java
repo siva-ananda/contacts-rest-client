@@ -12,6 +12,7 @@ import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
+import be.steformations.sivananda.data.contacts.dto.ContactDto;
 import be.steformations.sivananda.data.contacts.dto.ContactsDtoFactory;
 import be.steformations.sivananda.data.contacts.dto.CountryDto;
 import be.steformations.sivananda.data.contacts.dto.TagDto;
@@ -126,6 +127,70 @@ public class ContactRestClient {
 		}
 
 		return country;
+	}
+
+	public ContactDto getContactById(int id) {
+		ContactDto contact = null;
+		Response response = this.service.path("contact").path(String.valueOf(id)).request(MediaType.APPLICATION_XML)
+				.get();
+		if (response.getStatus() == 200) {
+			contact = response.readEntity(ContactDto.class);
+		}
+		return contact;
+	}
+
+	public List<ContactDto> getAllContacts() {
+		List<ContactDto> contacts = null;
+		Response response = this.service.path("contact").request(MediaType.APPLICATION_XML).get();
+		if (response.getStatus() == 200) {
+			GenericType<List<ContactDto>> type = new GenericType<List<ContactDto>>() {
+			};
+			contacts = response.readEntity(type);
+		}
+		return contacts;
+	}
+
+	public boolean removeContact(int id) {
+		boolean deleted = false;
+
+		Response response = this.service.path("contact").path(String.valueOf(id)).request().delete();
+		if (response.getStatus() == 200) {
+			deleted = true;
+		}
+		return deleted;
+	}
+
+	public ContactDto createAndSaveContact(String firstname, String name, String email, String countryAbbreviation, List<String> tagValues) {
+		ContactDto contactDto = null;
+		ContactDto input = new ContactDto();
+		input.setFirstname(firstname);
+		input.setName(name);
+		input.setEmail(email);
+		
+		CountryDto countryDto = null;
+		if (countryAbbreviation != null){
+			countryDto = new CountryDto();
+			countryDto.setAbbreviation(countryAbbreviation);
+		}
+		input.setCountry(countryDto);
+		
+		if (tagValues != null) {
+			for (String value : tagValues){
+				TagDto tagDto = new TagDto();
+				tagDto.setValue(value);
+				input.getTags().add(tagDto);
+			}
+		}
+		
+		Entity<ContactDto> entity = Entity.entity(input, MediaType.APPLICATION_XML);
+		
+		Response response = this.service.path("contact").request(MediaType.APPLICATION_XML).post(entity);
+		
+		if (response.getStatus() == 200){
+			contactDto = response.readEntity(ContactDto.class);
+		}
+
+		return contactDto;
 	}
 
 }
