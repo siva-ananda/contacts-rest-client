@@ -4,9 +4,12 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 import be.steformations.sivananda.data.contacts.dto.ContactsDtoFactory;
@@ -106,6 +109,23 @@ public class ContactRestClient {
 			countries = response.readEntity(type);
 		}
 		return countries;
+	}
+
+	public CountryDto createAndSaveCountry(String abbreviation, String name) {
+		CountryDto country = null;
+
+		MultivaluedMap<String, String> form = new MultivaluedHashMap<>();
+		form.add("abbr", abbreviation);
+		form.add("name", name);
+
+		Entity<MultivaluedMap<String, String>> entity = Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED);
+		Response response = this.service.path("country").request(MediaType.APPLICATION_JSON).post(entity);
+
+		if (response.getStatus() == 200) {
+			country = response.readEntity(CountryDto.class);
+		}
+
+		return country;
 	}
 
 }
