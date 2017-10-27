@@ -11,6 +11,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import be.steformations.sivananda.data.contacts.dto.ContactsDtoFactory;
+import be.steformations.sivananda.data.contacts.dto.CountryDto;
 import be.steformations.sivananda.data.contacts.dto.TagDto;
 
 public class ContactRestClient {
@@ -86,6 +87,16 @@ public class ContactRestClient {
 			tags = Collections.emptyList();
 		}
 		return tags;
+	}
+	
+	
+	public CountryDto getCountryByAbbreviation(String abbreviation) {
+		CountryDto country = null;
+		Response response = this.service.path("country").path(abbreviation).request(MediaType.APPLICATION_JSON).get();
+		if (response.getStatus() == 200){
+			country = response.readEntity(CountryDto.class);
+		}
+		return country;
 	}
 
 }
